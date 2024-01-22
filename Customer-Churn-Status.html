@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jimmy" />
+
+<meta name="date" content="2024-01-19" />
+
+<title>Customer Churn Status</title>
+
+<script src="Customer-Churn-Status_files/header-attrs-2.25/header-attrs.js"></script>
+<script src="Customer-Churn-Status_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="Customer-Churn-Status_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="Customer-Churn-Status_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="Customer-Churn-Status_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="Customer-Churn-Status_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="Customer-Churn-Status_files/navigation-1.1/tabsets.js"></script>
+<link href="Customer-Churn-Status_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="Customer-Churn-Status_files/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Customer Churn Status</h1>
+<h4 class="author">Jimmy</h4>
+<h4 class="date">2024-01-19</h4>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>The telecom industry is highly competitive and customer retention is
+crucial for sustainable business growth. This analysis aims to explore
+the correlation between a customer’s total charges and their churn
+status.</p>
+<div id="data-collection" class="section level2">
+<h2>Data Collection</h2>
+<pre class="r"><code>library(DBI)
+library(RMySQL)
+library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ forcats   1.0.0     ✔ readr     2.1.4
+## ✔ ggplot2   3.4.4     ✔ stringr   1.5.1
+## ✔ lubridate 1.9.3     ✔ tibble    3.2.1
+## ✔ purrr     1.0.2     ✔ tidyr     1.3.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(nnet)
+library(caret)</code></pre>
+<pre><code>## Loading required package: lattice
+## 
+## Attaching package: &#39;caret&#39;
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     lift</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<div id="data-exploration" class="section level3">
+<h3>Data Exploration</h3>
+<p>head(telecom_data) # View the first few rows summary(telecom_data) #
+Summary statistics str(telecom_data) # Structure of the dataset</p>
+</div>
+<div id="checking-for-missing-values" class="section level3">
+<h3>Checking for missing values</h3>
+<p>missing_values &lt;- colSums(is.na(telecom_data))</p>
+<div id="display-missing-values" class="section level4">
+<h4>Display missing values</h4>
+<p>print(missing_values)</p>
+</div>
+</div>
+<div
+id="example-of-anova-for-total-charges-across-different-churn-statuses"
+class="section level3">
+<h3>Example of ANOVA for total charges across different churn
+statuses</h3>
+<p>ANOVA is the Analysis of Variance using a categorical independent
+variable and a continuous dependent variable; Customer Status -
+Categorical Total Charges - Continuous</p>
+<pre class="r"><code>anova_result &lt;- aov(`Total Charges` ~ `Customer Status`, data = telecom_data)</code></pre>
+<div id="display-the-anova-result" class="section level4">
+<h4>Display the ANOVA result</h4>
+<pre class="r"><code>print(anova_result)</code></pre>
+<pre><code>## Call:
+##    aov(formula = `Total Charges` ~ `Customer Status`, data = telecom_data)
+## 
+## Terms:
+##                 `Customer Status`   Residuals
+## Sum of Squares         6142449370 22060488887
+## Deg. of Freedom                 2        4832
+## 
+## Residual standard error: 2136.703
+## Estimated effects may be unbalanced</code></pre>
+</div>
+<div
+id="example-of-kruskal-wallis-test-for-total-charges-across-churn-status"
+class="section level4">
+<h4>Example of Kruskal-Wallis test for total charges across churn
+status</h4>
+<p>Kruskal-Wallis test is a non-parametric statistical test</p>
+<pre class="r"><code>kruskal_result &lt;- kruskal.test(`Total Charges` ~ `Customer Status`, data = telecom_data)</code></pre>
+</div>
+<div id="display-the-kruskal-wallis-test-result" class="section level4">
+<h4>Display the Kruskal-Wallis test result</h4>
+<pre class="r"><code>print(kruskal_result)</code></pre>
+<pre><code>## 
+##  Kruskal-Wallis rank sum test
+## 
+## data:  Total Charges by Customer Status
+## Kruskal-Wallis chi-squared = 1402.2, df = 2, p-value &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<div id="interpretation-of-result" class="section level3">
+<h3>Interpretation of result</h3>
+<pre class="r"><code>if (kruskal_result$p.value &lt; 0.05) {
+  cat(&quot;The Kruskal-Wallis test indicates a significant difference in Total Charges across Churn Status groups.\n&quot;)
+} else {
+  cat(&quot;There is no significant difference in Total Charges across Churn Status groups.\n&quot;)
+}</code></pre>
+<pre><code>## The Kruskal-Wallis test indicates a significant difference in Total Charges across Churn Status groups.</code></pre>
+<p>The results provided a highly significant p-value p&lt; 2.2e-16
+suggesting that there are signficant differences in total charges among
+tge different customer status groups.</p>
+<div id="visualize-results-with-boxplots" class="section level4">
+<h4>Visualize results with boxplots</h4>
+<pre class="r"><code>ggplot(telecom_data, aes(x = `Customer Status`, y = `Total Charges`)) +
+  geom_boxplot(fill = &quot;skyblue&quot;, color = &quot;black&quot;) +
+  labs(title = &quot;Total Charges Across Churn Status&quot;, x = &quot;`Customer Status`&quot;, y = &quot;`Total Charges`&quot;)</code></pre>
+<p><img src="Customer-Churn-Status_files/figure-html/KW_test_Result-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="machine-learning-model-for-customer-churn"
+class="section level2">
+<h2>Machine Learning Model for Customer Churn</h2>
+<div id="convert-the-outcome-variable-to-a-factor-with-three-levels"
+class="section level3">
+<h3>Convert the outcome variable to a factor with three levels</h3>
+<pre class="r"><code>telecom_data$`Customer Status` &lt;- as.factor(telecom_data$`Customer Status`)</code></pre>
+</div>
+<div id="split-the-data-into-training-and-testing-sets"
+class="section level3">
+<h3>Split the data into training and testing sets</h3>
+<pre class="r"><code>set.seed(123)
+train_index &lt;- createDataPartition(telecom_data$`Customer Status`, p = 0.7, list = FALSE)
+train_data &lt;- telecom_data[train_index, ]
+test_data &lt;- telecom_data[-train_index, ]</code></pre>
+</div>
+<div id="build-a-multinomial-logistic-regression-model"
+class="section level3">
+<h3>Build a multinomial logistic regression model</h3>
+<pre class="r"><code>multinom_model &lt;- multinom(`Customer Status` ~ `Total Charges`, data = train_data)</code></pre>
+<pre><code>## # weights:  9 (4 variable)
+## initial  value 3719.901209 
+## iter  10 value 2197.419703
+## final  value 2143.958917 
+## converged</code></pre>
+</div>
+<div id="make-predictions-on-the-test-set" class="section level3">
+<h3>Make predictions on the test set</h3>
+<pre class="r"><code>predictions &lt;- predict(multinom_model, newdata = test_data, type = &quot;class&quot;)</code></pre>
+</div>
+<div id="evaluate-the-model" class="section level3">
+<h3>Evaluate the model</h3>
+<pre class="r"><code>conf_matrix &lt;- confusionMatrix(predictions, test_data$`Customer Status`)
+print(conf_matrix)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction Churned Joined Stayed
+##    Churned     234     53    133
+##    Joined       29     17      0
+##    Stayed      212      0    771
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.7053          
+##                  95% CI : (0.6811, 0.7287)
+##     No Information Rate : 0.6239          
+##     P-Value [Acc &gt; NIR] : 4.575e-11       
+##                                           
+##                   Kappa : 0.3863          
+##                                           
+##  Mcnemar&#39;s Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: Churned Class: Joined Class: Stayed
+## Sensitivity                  0.4926       0.24286        0.8529
+## Specificity                  0.8090       0.97897        0.6110
+## Pos Pred Value               0.5571       0.36957        0.7843
+## Neg Pred Value               0.7658       0.96222        0.7146
+## Prevalence                   0.3278       0.04831        0.6239
+## Detection Rate               0.1615       0.01173        0.5321
+## Detection Prevalence         0.2899       0.03175        0.6784
+## Balanced Accuracy            0.6508       0.61091        0.7319</code></pre>
+<div id="create-a-data-frame-for-the-confusion-matrix"
+class="section level4">
+<h4>Create a data frame for the confusion matrix</h4>
+<pre class="r"><code>conf_matrix_df &lt;- data.frame(
+  Actual = rep(rownames(conf_matrix$byClass), each = ncol(conf_matrix$byClass)),
+  Predicted = rep(colnames(conf_matrix$byClass), times = nrow(conf_matrix$byClass)),
+  Freq = as.vector(conf_matrix$byClass)
+)</code></pre>
+</div>
+<div id="create-a-confusion-matrix-plot" class="section level4">
+<h4>Create a confusion matrix plot</h4>
+<p>A confusion matrix helps evaluate the performance of a classification
+model. In this context it is like a scoreboard that predicts different
+outcomes based on total charges.</p>
+<pre class="r"><code>ggplot(conf_matrix_df, aes(x = Actual, y = Predicted, fill = Freq)) +
+  geom_tile(color = &quot;white&quot;, stat = &quot;identity&quot;) +
+  scale_fill_gradient(low = &quot;skyblue1&quot;, high = &quot;lightcoral&quot;) +
+  labs(title = &quot;Confusion Matrix for Multinomial Logistic Regression&quot;,
+       subtitle = &quot;Predicted vs. Actual Churn Status&quot;,
+       x = &quot;Actual&quot;, y = &quot;Predicted&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="Customer-Churn-Status_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
