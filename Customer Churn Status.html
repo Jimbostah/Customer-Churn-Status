@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<!-- saved from url=(0094)file:///C:/Users/Jimmy/Desktop/Analysis%20Portfolio/Telecom%20Churn/Customer-Churn-Status.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<meta name="generator" content="pandoc">
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+
+
+<meta name="author" content="Jimmy">
+
+<meta name="date" content="2024-01-19">
+
+<title>Customer Churn Status</title>
+
+<script src="./Customer Churn Status_files/header-attrs.js.download"></script>
+<script src="./Customer Churn Status_files/jquery-3.6.0.min.js.download"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="./Customer Churn Status_files/bootstrap.min.css" rel="stylesheet">
+<script src="./Customer Churn Status_files/bootstrap.min.js.download"></script>
+<script src="./Customer Churn Status_files/html5shiv.min.js.download"></script>
+<script src="./Customer Churn Status_files/respond.min.js.download"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="./Customer Churn Status_files/tabsets.js.download"></script>
+<link href="./Customer Churn Status_files/default.css" rel="stylesheet">
+<script src="./Customer Churn Status_files/highlight.js.download"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+<script type="text/javascript" src="./Customer Churn Status_files/MathJax.js.download"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+
+<body><div id="MathJax_Message" style="display: none;"></div>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Customer Churn Status</h1>
+<h4 class="author">Jimmy</h4>
+<h4 class="date">2024-01-19</h4>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>The telecom industry is highly competitive and customer retention is
+crucial for sustainable business growth. This analysis aims to explore
+the correlation between a customer’s total charges and their churn
+status.</p>
+<div id="data-collection" class="section level2">
+<h2>Data Collection</h2>
+<pre class="r"><code class="hljs"><span class="hljs-keyword">library</span>(DBI)
+<span class="hljs-keyword">library</span>(RMySQL)
+<span class="hljs-keyword">library</span>(dplyr)</code></pre>
+<pre><code class="hljs">## 
+## Attaching package: 'dplyr'</code></pre>
+<pre><code class="hljs">## The following objects are masked from 'package:stats':
+## 
+##     filter, lag</code></pre>
+<pre><code class="hljs">## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code class="hljs"><span class="hljs-keyword">library</span>(tidyverse)</code></pre>
+<pre><code class="hljs">## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ forcats   1.0.0     ✔ readr     2.1.4
+## ✔ ggplot2   3.4.4     ✔ stringr   1.5.1
+## ✔ lubridate 1.9.3     ✔ tibble    3.2.1
+## ✔ purrr     1.0.2     ✔ tidyr     1.3.0</code></pre>
+<pre><code class="hljs">## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code class="hljs"><span class="hljs-keyword">library</span>(ggplot2)
+<span class="hljs-keyword">library</span>(nnet)
+<span class="hljs-keyword">library</span>(caret)</code></pre>
+<pre><code class="hljs">## Loading required package: lattice
+## 
+## Attaching package: 'caret'
+## 
+## The following object is masked from 'package:purrr':
+## 
+##     lift</code></pre>
+<pre><code class="hljs">## [1] TRUE</code></pre>
+<div id="data-exploration" class="section level3">
+<h3>Data Exploration</h3>
+<p>head(telecom_data) # View the first few rows summary(telecom_data) #
+Summary statistics str(telecom_data) # Structure of the dataset</p>
+</div>
+<div id="checking-for-missing-values" class="section level3">
+<h3>Checking for missing values</h3>
+<p>missing_values &lt;- colSums(is.na(telecom_data))</p>
+<div id="display-missing-values" class="section level4">
+<h4>Display missing values</h4>
+<p>print(missing_values)</p>
+</div>
+</div>
+<div id="example-of-anova-for-total-charges-across-different-churn-statuses" class="section level3">
+<h3>Example of ANOVA for total charges across different churn
+statuses</h3>
+<p>ANOVA is the Analysis of Variance using a categorical independent
+variable and a continuous dependent variable; Customer Status -
+Categorical Total Charges - Continuous</p>
+<pre class="r"><code class="hljs">anova_result &lt;- aov(`Total Charges` ~ `Customer Status`, data = telecom_data)</code></pre>
+<div id="display-the-anova-result" class="section level4">
+<h4>Display the ANOVA result</h4>
+<pre class="r"><code class="hljs">print(anova_result)</code></pre>
+<pre><code class="hljs">## Call:
+##    aov(formula = `Total Charges` ~ `Customer Status`, data = telecom_data)
+## 
+## Terms:
+##                 `Customer Status`   Residuals
+## Sum of Squares         6142449370 22060488887
+## Deg. of Freedom                 2        4832
+## 
+## Residual standard error: 2136.703
+## Estimated effects may be unbalanced</code></pre>
+</div>
+<div id="example-of-kruskal-wallis-test-for-total-charges-across-churn-status" class="section level4">
+<h4>Example of Kruskal-Wallis test for total charges across churn
+status</h4>
+<p>Kruskal-Wallis test is a non-parametric statistical test</p>
+<pre class="r"><code class="hljs">kruskal_result &lt;- kruskal.test(`Total Charges` ~ `Customer Status`, data = telecom_data)</code></pre>
+</div>
+<div id="display-the-kruskal-wallis-test-result" class="section level4">
+<h4>Display the Kruskal-Wallis test result</h4>
+<pre class="r"><code class="hljs">print(kruskal_result)</code></pre>
+<pre><code class="hljs">## 
+##  Kruskal-Wallis rank sum test
+## 
+## data:  Total Charges by Customer Status
+## Kruskal-Wallis chi-squared = 1402.2, df = 2, p-value &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<div id="interpretation-of-result" class="section level3">
+<h3>Interpretation of result</h3>
+<pre class="r"><code class="hljs"><span class="hljs-keyword">if</span> (kruskal_result$p.value &lt; <span class="hljs-number">0.05</span>) {
+  cat(<span class="hljs-string">"The Kruskal-Wallis test indicates a significant difference in Total Charges across Churn Status groups.\n"</span>)
+} <span class="hljs-keyword">else</span> {
+  cat(<span class="hljs-string">"There is no significant difference in Total Charges across Churn Status groups.\n"</span>)
+}</code></pre>
+<pre><code class="hljs">## The Kruskal-Wallis test indicates a significant difference in Total Charges across Churn Status groups.</code></pre>
+<p>The results provided a highly significant p-value p&lt; 2.2e-16
+suggesting that there are signficant differences in total charges among
+tge different customer status groups.</p>
+<div id="visualize-results-with-boxplots" class="section level4">
+<h4>Visualize results with boxplots</h4>
+<pre class="r"><code class="hljs">ggplot(telecom_data, aes(x = `Customer Status`, y = `Total Charges`)) +
+  geom_boxplot(fill = <span class="hljs-string">"skyblue"</span>, color = <span class="hljs-string">"black"</span>) +
+  labs(title = <span class="hljs-string">"Total Charges Across Churn Status"</span>, x = <span class="hljs-string">"`Customer Status`"</span>, y = <span class="hljs-string">"`Total Charges`"</span>)</code></pre>
+<p><img src="./Customer Churn Status_files/KW_test_Result-1.png" width="672"></p>
+</div>
+</div>
+</div>
+<div id="machine-learning-model-for-customer-churn" class="section level2">
+<h2>Machine Learning Model for Customer Churn</h2>
+<div id="convert-the-outcome-variable-to-a-factor-with-three-levels" class="section level3">
+<h3>Convert the outcome variable to a factor with three levels</h3>
+<pre class="r"><code class="hljs">telecom_data$`Customer Status` &lt;- as.factor(telecom_data$`Customer Status`)</code></pre>
+</div>
+<div id="split-the-data-into-training-and-testing-sets" class="section level3">
+<h3>Split the data into training and testing sets</h3>
+<pre class="r"><code class="hljs">set.seed(<span class="hljs-number">123</span>)
+train_index &lt;- createDataPartition(telecom_data$`Customer Status`, p = <span class="hljs-number">0.7</span>, list = <span class="hljs-literal">FALSE</span>)
+train_data &lt;- telecom_data[train_index, ]
+test_data &lt;- telecom_data[-train_index, ]</code></pre>
+</div>
+<div id="build-a-multinomial-logistic-regression-model" class="section level3">
+<h3>Build a multinomial logistic regression model</h3>
+<pre class="r"><code class="hljs">multinom_model &lt;- multinom(`Customer Status` ~ `Total Charges`, data = train_data)</code></pre>
+<pre><code class="hljs">## # weights:  9 (4 variable)
+## initial  value 3719.901209 
+## iter  10 value 2197.419703
+## final  value 2143.958917 
+## converged</code></pre>
+</div>
+<div id="make-predictions-on-the-test-set" class="section level3">
+<h3>Make predictions on the test set</h3>
+<pre class="r"><code class="hljs">predictions &lt;- predict(multinom_model, newdata = test_data, type = <span class="hljs-string">"class"</span>)</code></pre>
+</div>
+<div id="evaluate-the-model" class="section level3">
+<h3>Evaluate the model</h3>
+<pre class="r"><code class="hljs">conf_matrix &lt;- confusionMatrix(predictions, test_data$`Customer Status`)
+print(conf_matrix)</code></pre>
+<pre><code class="hljs">## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction Churned Joined Stayed
+##    Churned     234     53    133
+##    Joined       29     17      0
+##    Stayed      212      0    771
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.7053          
+##                  95% CI : (0.6811, 0.7287)
+##     No Information Rate : 0.6239          
+##     P-Value [Acc &gt; NIR] : 4.575e-11       
+##                                           
+##                   Kappa : 0.3863          
+##                                           
+##  Mcnemar's Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: Churned Class: Joined Class: Stayed
+## Sensitivity                  0.4926       0.24286        0.8529
+## Specificity                  0.8090       0.97897        0.6110
+## Pos Pred Value               0.5571       0.36957        0.7843
+## Neg Pred Value               0.7658       0.96222        0.7146
+## Prevalence                   0.3278       0.04831        0.6239
+## Detection Rate               0.1615       0.01173        0.5321
+## Detection Prevalence         0.2899       0.03175        0.6784
+## Balanced Accuracy            0.6508       0.61091        0.7319</code></pre>
+<div id="create-a-data-frame-for-the-confusion-matrix" class="section level4">
+<h4>Create a data frame for the confusion matrix</h4>
+<pre class="r"><code class="hljs">conf_matrix_df &lt;- data.frame(
+  Actual = rep(rownames(conf_matrix$byClass), each = ncol(conf_matrix$byClass)),
+  Predicted = rep(colnames(conf_matrix$byClass), times = nrow(conf_matrix$byClass)),
+  Freq = as.vector(conf_matrix$byClass)
+)</code></pre>
+</div>
+<div id="create-a-confusion-matrix-plot" class="section level4">
+<h4>Create a confusion matrix plot</h4>
+<p>A confusion matrix helps evaluate the performance of a classification
+model. In this context it is like a scoreboard that predicts different
+outcomes based on total charges.</p>
+<pre class="r"><code class="hljs">ggplot(conf_matrix_df, aes(x = Actual, y = Predicted, fill = Freq)) +
+  geom_tile(color = <span class="hljs-string">"white"</span>, stat = <span class="hljs-string">"identity"</span>) +
+  scale_fill_gradient(low = <span class="hljs-string">"skyblue1"</span>, high = <span class="hljs-string">"lightcoral"</span>) +
+  labs(title = <span class="hljs-string">"Confusion Matrix for Multinomial Logistic Regression"</span>,
+       subtitle = <span class="hljs-string">"Predicted vs. Actual Churn Status"</span>,
+       x = <span class="hljs-string">"Actual"</span>, y = <span class="hljs-string">"Predicted"</span>) +
+  theme_minimal()</code></pre>
+<p><img src="./Customer Churn Status_files/unnamed-chunk-9-1.png" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+
+
+</body></html>
